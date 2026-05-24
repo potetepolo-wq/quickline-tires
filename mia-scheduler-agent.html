@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Quick Line Tires — Miami Mobile Tire Service</title>
+<meta name="description" content="Quick Line Tires — Mobile tire sales and installation in Miami-Dade and Broward. We come to you. Same-day service, best prices."/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root{--ink:#080808;--ink2:#111;--surface:#0f0f0f;--card:#131313;--line:#1c1c1c;--line2:#252525;--red:#ff2d2d;--silver:#9a9a9a;--dim:#3a3a3a;--white:#ededed;--font-d:'Syne',sans-serif;--font-b:'DM Sans',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}html,body{height:100%;background:var(--ink);color:var(--white);font-family:var(--font-b);overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(8,8,8,0);border-bottom:1px solid rgba(255,255,255,0);transition:background 0.4s,border-color 0.4s;}
+nav.scrolled{background:rgba(8,8,8,0.85);border-color:rgba(255,255,255,0.05);backdrop-filter:blur(20px);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;opacity:0;animation:navIn 0.6s 0.2s ease forwards;}
+.logo-mark{width:30px;height:30px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:13px;font-weight:800;color:#fff;}
+.logo-word{font-family:var(--font-d);font-size:16px;font-weight:800;letter-spacing:1px;}.logo-word em{color:var(--red);font-style:normal;}
+.nav-links{display:flex;gap:2rem;list-style:none;opacity:0;animation:navIn 0.6s 0.3s ease forwards;}
+.nav-links a{font-size:12px;color:var(--silver);text-decoration:none;transition:color 0.2s;}.nav-links a:hover{color:var(--white);}
+.nav-cta{background:var(--red);color:#fff;border:none;padding:8px 20px;border-radius:100px;font-size:12px;font-weight:600;font-family:var(--font-b);cursor:pointer;opacity:0;animation:navIn 0.6s 0.4s ease forwards;transition:background 0.2s,transform 0.15s;}
+.nav-cta:hover{background:#d91c1c;transform:scale(1.03);}
+@keyframes navIn{to{opacity:1;}}
+.hero{height:100vh;min-height:600px;display:flex;align-items:center;padding:60px 2.5rem 0;position:relative;overflow:hidden;}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:72px 72px;animation:gridFade 1.2s ease forwards;opacity:0;}
+@keyframes gridFade{to{opacity:1;}}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;}
+.orb1{width:500px;height:500px;background:rgba(255,45,45,0.14);top:-10%;right:-8%;animation:orb1move 8s ease-in-out infinite alternate;}
+.orb2{width:360px;height:360px;background:rgba(255,45,45,0.07);bottom:-15%;left:-8%;animation:orb2move 10s ease-in-out infinite alternate;}
+.orb3{width:200px;height:200px;background:rgba(255,120,60,0.06);top:40%;left:30%;animation:orb3move 6s ease-in-out infinite alternate;}
+@keyframes orb1move{to{transform:translate(-40px,30px) scale(1.1);}}
+@keyframes orb2move{to{transform:translate(30px,-40px) scale(1.08);}}
+@keyframes orb3move{to{transform:translate(-20px,20px) scale(0.9);}}
+.noise{position:absolute;inset:0;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.03;}
+.scanline{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,45,45,0.6),transparent);animation:scan 4s linear infinite;opacity:0;pointer-events:none;}
+@keyframes scan{0%{top:-2%;opacity:0;}5%{opacity:1;}95%{opacity:0.3;}100%{top:102%;opacity:0;}}
+.hero-inner{position:relative;z-index:2;max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 420px;gap:3rem;align-items:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(255,45,45,0.08);border:1px solid rgba(255,45,45,0.18);padding:5px 14px;border-radius:100px;margin-bottom:1.5rem;font-size:10px;font-weight:600;color:rgba(255,110,110,0.9);letter-spacing:2px;text-transform:uppercase;opacity:0;transform:translateY(12px);animation:up 0.7s 0.5s cubic-bezier(0.22,1,0.36,1) forwards;}
+.tag-dot{width:5px;height:5px;background:#ff5555;border-radius:50%;animation:blink 1.6s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.2;}}
+.hero-h1{font-family:var(--font-d);font-size:clamp(50px,5.5vw,82px);font-weight:800;line-height:0.92;letter-spacing:-2.5px;margin-bottom:1.5rem;}
+.h1-line{display:block;overflow:hidden;}
+.h1-word{display:block;opacity:0;transform:translateY(100%);}
+.h1-line:nth-child(1) .h1-word{animation:wordUp 0.8s 0.6s cubic-bezier(0.22,1,0.36,1) forwards;}
+.h1-line:nth-child(2) .h1-word{animation:wordUp 0.8s 0.72s cubic-bezier(0.22,1,0.36,1) forwards;}
+.h1-line:nth-child(3) .h1-word{animation:wordUp 0.8s 0.84s cubic-bezier(0.22,1,0.36,1) forwards;}
+@keyframes wordUp{to{opacity:1;transform:translateY(0);}}
+.outline{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.2);}.accent{color:var(--red);}
+.hero-p{font-size:15px;font-weight:300;color:var(--silver);line-height:1.8;max-width:400px;margin-bottom:2rem;opacity:0;animation:up 0.7s 1s cubic-bezier(0.22,1,0.36,1) forwards;}
+.hero-btns{display:flex;gap:10px;opacity:0;animation:up 0.7s 1.1s cubic-bezier(0.22,1,0.36,1) forwards;}
+.btn-main{background:var(--red);color:#fff;border:none;padding:13px 28px;border-radius:100px;font-size:13px;font-weight:600;font-family:var(--font-b);cursor:pointer;display:flex;align-items:center;gap:7px;transition:all 0.2s;position:relative;overflow:hidden;}
+.btn-main::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);opacity:0;transition:opacity 0.2s;}
+.btn-main:hover{background:#d91c1c;transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,45,45,0.35);}.btn-main:hover::after{opacity:1;}
+.btn-ghost{background:transparent;color:var(--silver);border:1px solid rgba(255,255,255,0.1);padding:13px 24px;border-radius:100px;font-size:13px;font-weight:400;font-family:var(--font-b);cursor:pointer;transition:all 0.2s;}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.25);color:var(--white);}
+@keyframes up{to{opacity:1;transform:translateY(0);}}
+.stat-stack{display:flex;flex-direction:column;gap:1px;opacity:0;animation:slideIn 0.9s 0.9s cubic-bezier(0.22,1,0.36,1) forwards;}
+@keyframes slideIn{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:none;}}
+.stat{background:rgba(19,19,19,0.8);border:1px solid var(--line);padding:1.25rem 1.5rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(8px);transition:background 0.2s,border-color 0.2s,transform 0.2s;cursor:default;}
+.stat:first-child{border-radius:16px 16px 0 0;}.stat:last-child{border-radius:0 0 16px 16px;}
+.stat:hover{background:rgba(22,22,22,0.9);border-color:var(--line2);transform:translateX(-4px);}
+.stat-num{font-family:var(--font-d);font-size:32px;font-weight:800;line-height:1;}.stat-label{font-size:11px;color:var(--silver);margin-top:3px;}.stat-icon{font-size:22px;opacity:0.4;}
+.scroll-hint{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:up 0.7s 1.5s ease forwards;z-index:2;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(180deg,transparent,rgba(255,45,45,0.6));animation:scrollPulse 1.8s ease-in-out infinite;}
+@keyframes scrollPulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
+.scroll-text{font-size:9px;letter-spacing:2.5px;color:var(--dim);text-transform:uppercase;}
+.marquee-wrap{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:12px 0;overflow:hidden;background:var(--ink2);}
+.marquee-track{display:flex;white-space:nowrap;animation:marquee 24s linear infinite;}
+@keyframes marquee{to{transform:translateX(-50%);}}
+.m-item{display:inline-flex;align-items:center;gap:12px;padding:0 1.75rem;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);}
+.m-dot{width:3px;height:3px;background:var(--red);border-radius:50%;flex-shrink:0;}
+.section{padding:6rem 2.5rem;}.section-inner{max-width:1160px;margin:0 auto;}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:0.75rem;}
+.eyebrow-line{width:28px;height:1px;background:var(--red);}
+.eyebrow-text{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);}
+.section-h2{font-family:var(--font-d);font-size:clamp(32px,3.5vw,50px);font-weight:800;line-height:1.05;letter-spacing:-1px;margin-bottom:1rem;}
+.section-h2 em{color:var(--red);font-style:normal;}
+.section-sub{font-size:15px;font-weight:300;color:var(--silver);line-height:1.75;max-width:440px;}
+.svc-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3.5rem;flex-wrap:wrap;gap:1.5rem;}
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);}
+.svc{background:var(--card);padding:2.2rem 1.75rem;position:relative;overflow:hidden;transition:background 0.2s;cursor:default;}
+.svc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform 0.35s ease;}
+.svc:hover{background:#161616;}.svc:hover::after{transform:scaleX(1);}
+.svc-n{font-family:var(--font-d);font-size:10px;color:var(--dim);letter-spacing:2px;margin-bottom:1.75rem;}
+.svc-ic{font-size:28px;margin-bottom:1.25rem;display:block;}
+.svc-h{font-family:var(--font-d);font-size:18px;font-weight:700;margin-bottom:0.6rem;}.svc-p{font-size:12px;font-weight:300;color:var(--silver);line-height:1.7;}
+.order-layout{display:grid;grid-template-columns:1fr 1.15fr;gap:4.5rem;align-items:start;margin-top:3.5rem;}
+.order-promises{margin-top:2.5rem;display:flex;flex-direction:column;gap:14px;}
+.promise{display:flex;align-items:center;gap:10px;}
+.p-dot{width:7px;height:7px;border-radius:50%;background:var(--red);flex-shrink:0;}.p-text{font-size:13px;font-weight:300;color:var(--silver);}
+.form-wrap{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:2.2rem;position:relative;overflow:hidden;}
+.form-wrap::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(255,45,45,0.07) 0%,transparent 70%);pointer-events:none;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem;}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:0.85rem;}
+.fg label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);}
+.fg input,.fg select,.fg textarea{background:#0a0a0a;border:1px solid var(--line2);border-radius:10px;padding:11px 14px;font-size:13px;font-family:var(--font-b);font-weight:300;color:var(--white);outline:none;transition:border-color 0.2s;width:100%;}
+.fg input::placeholder,.fg textarea::placeholder{color:#282828;}.fg select option{background:#111;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(255,45,45,0.35);}
+.fsub{width:100%;background:var(--red);color:#fff;border:none;padding:14px;border-radius:100px;font-size:13px;font-weight:600;font-family:var(--font-b);cursor:pointer;margin-top:0.4rem;transition:background 0.2s,transform 0.15s,box-shadow 0.2s;}
+.fsub:hover{background:#d91c1c;transform:translateY(-1px);box-shadow:0 10px 28px rgba(255,45,45,0.3);}
+.ok{display:none;margin-top:0.75rem;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.2);border-radius:10px;padding:0.9rem;text-align:center;font-size:12px;color:#4ade80;font-weight:500;}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);margin-top:3.5rem;}
+.why-c{background:var(--card);padding:2.2rem 1.75rem;text-align:center;}
+.why-n{font-family:var(--font-d);font-size:48px;font-weight:800;line-height:1;margin-bottom:0.6rem;background:linear-gradient(135deg,#fff,rgba(255,255,255,0.35));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.why-h{font-family:var(--font-d);font-size:14px;font-weight:700;margin-bottom:0.4rem;}.why-p{font-size:12px;font-weight:300;color:var(--silver);line-height:1.6;}
+footer{background:var(--ink);border-top:1px solid var(--line);padding:3.5rem 2.5rem 2.5rem;}
+.footer-inner{max-width:1160px;margin:0 auto;}
+.ftop{display:flex;justify-content:space-between;gap:2.5rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.f-logo{font-family:var(--font-d);font-size:20px;font-weight:800;letter-spacing:0.5px;margin-bottom:0.6rem;}
+.f-logo em{color:var(--red);font-style:normal;}.f-tag{font-size:12px;font-weight:300;color:var(--silver);line-height:1.6;max-width:200px;}
+.flinks h4{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:0.9rem;}
+.flinks a{display:block;font-size:13px;font-weight:300;color:var(--silver);text-decoration:none;margin-bottom:8px;transition:color 0.15s;}.flinks a:hover{color:var(--white);}
+.fbot{display:flex;align-items:center;justify-content:space-between;padding-top:1.75rem;border-top:1px solid var(--line);flex-wrap:wrap;gap:1rem;}
+.fcopy{font-size:11px;color:var(--dim);}
+.fsocial{display:flex;gap:10px;}
+.soc{width:34px;height:34px;border-radius:9px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:14px;text-decoration:none;transition:border-color 0.2s,background 0.2s;}
+.soc:hover{border-color:var(--red);background:rgba(255,45,45,0.08);}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}.reveal.visible{opacity:1;transform:none;}
+#rex-bubble{position:fixed;bottom:24px;right:24px;z-index:9999;width:52px;height:52px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 24px rgba(255,45,45,0.4);font-size:20px;border:none;transition:transform 0.2s;}
+#rex-bubble:hover{transform:scale(1.1);}
+#rex-frame{display:none;position:fixed;bottom:88px;right:24px;width:370px;height:500px;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.6);z-index:9998;border:1px solid #2a2a2a;}
+#rex-frame iframe{width:100%;height:100%;border:none;}
+#rex-close{position:fixed;bottom:574px;right:28px;z-index:9999;background:#1a1a1a;border:1px solid #2a2a2a;color:#aaa;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:12px;display:none;align-items:center;justify-content:center;}
+@media(max-width:900px){
+nav{padding:0 1.25rem;}
+.nav-links{display:none;}
+.logo-word{color:#fff !important;}
+.hero{padding:60px 1.25rem 0;}
+.hero-inner{grid-template-columns:1fr;}
+.stat-stack{display:none;}
+.section{padding:4rem 1.25rem;}
+.svc-grid{grid-template-columns:1fr 1fr;}
+.svc{padding:1.5rem 1.25rem;}
+.order-layout{grid-template-columns:1fr;gap:2.5rem;}
+.frow{grid-template-columns:1fr;}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);}
+.why-c{padding:1.75rem 1.25rem;}
+.why-n{font-size:36px;}
+.why-h{font-size:13px;}
+.why-p{font-size:11px;}
+footer{padding:3rem 1.25rem 2rem;}
+.ftop{flex-direction:column;gap:1.5rem;}
+#rex-bubble{bottom:16px;right:16px;width:46px;height:46px;font-size:18px;}
+#rex-frame{width:calc(100vw - 32px);right:16px;bottom:74px;}
+#rex-close{right:20px;bottom:560px;}
+}
+@media(max-width:420px){
+.why-grid{grid-template-columns:1fr;}
+.svc-grid{grid-template-columns:1fr;}
+.hero-h1{font-size:42px;letter-spacing:-1.5px;}
+.nav-cta{padding:7px 14px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+<nav id="nav">
+  <a href="#" class="nav-logo"><div class="logo-mark">Q</div><div class="logo-word">QUICK<em>LINE</em></div></a>
+  <ul class="nav-links"><li><a href="#services">Services</a></li><li><a href="#order">Order</a></li><li><a href="#why">Why Us</a></li><li><a href="#footer">Contact</a></li></ul>
+  <button class="nav-cta" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Order Now</button>
+</nav>
+<section class="hero" id="hero">
+  <div class="hero-bg"><div class="hero-grid"></div><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div><div class="noise"></div><div class="scanline"></div></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag"><span class="tag-dot"></span>Mobile · Miami-Dade & Broward</div>
+      <h1 class="hero-h1"><span class="h1-line"><span class="h1-word">New Tires</span></span><span class="h1-line"><span class="h1-word outline">Delivered</span></span><span class="h1-line"><span class="h1-word accent">To You.</span></span></h1>
+      <p class="hero-p">Skip the shop. Quick Line brings quality tires and mobile installation straight to your door — same day, best price, zero hassle.</p>
+      <div class="hero-btns"><button class="btn-main" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Get a Quote →</button><button class="btn-ghost" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">See Services</button></div>
+    </div>
+    <div class="stat-stack">
+      <div class="stat"><div><div class="stat-num">24/7</div><div class="stat-label">Always available</div></div><div class="stat-icon">⚡</div></div>
+      <div class="stat"><div><div class="stat-num">&lt;1hr</div><div class="stat-label">Average quote time</div></div><div class="stat-icon">💬</div></div>
+      <div class="stat"><div><div class="stat-num">100%</div><div class="stat-label">Mobile — we come to you</div></div><div class="stat-icon">📍</div></div>
+      <div class="stat"><div><div class="stat-num">$0</div><div class="stat-label">No hidden fees, ever</div></div><div class="stat-icon">✅</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span class="scroll-text">Scroll</span><div class="scroll-line"></div></div>
+</section>
+<div class="marquee-wrap"><div class="marquee-track"><div class="m-item"><span class="m-dot"></span>Mobile Installation</div><div class="m-item"><span class="m-dot"></span>New Tire Sales</div><div class="m-item"><span class="m-dot"></span>Same-Day Service</div><div class="m-item"><span class="m-dot"></span>Best Pricing</div><div class="m-item"><span class="m-dot"></span>Partner Shop Network</div><div class="m-item"><span class="m-dot"></span>Balance & Rotation</div><div class="m-item"><span class="m-dot"></span>Miami-Dade & Broward</div><div class="m-item"><span class="m-dot"></span>@quickline.tires</div><div class="m-item"><span class="m-dot"></span>Mobile Installation</div><div class="m-item"><span class="m-dot"></span>New Tire Sales</div><div class="m-item"><span class="m-dot"></span>Same-Day Service</div><div class="m-item"><span class="m-dot"></span>Best Pricing</div><div class="m-item"><span class="m-dot"></span>Partner Shop Network</div><div class="m-item"><span class="m-dot"></span>Balance & Rotation</div><div class="m-item"><span class="m-dot"></span>Miami-Dade & Broward</div><div class="m-item"><span class="m-dot"></span>@quickline.tires</div></div></div>
+<section class="section" id="services" style="background:var(--surface);">
+  <div class="section-inner">
+    <div class="svc-head reveal"><div><div class="eyebrow"><div class="eyebrow-line"></div><div class="eyebrow-text">What We Offer</div></div><h2 class="section-h2">Everything You<br>Need to <em>Roll</em></h2></div><p class="section-sub">All major brands, every budget. Sourced direct, brought to your car.</p></div>
+    <div class="svc-grid"><div class="svc reveal"><div class="svc-n">01</div><span class="svc-ic">🚗</span><div class="svc-h">Tire Sales</div><p class="svc-p">All makes, models, and budgets. Budget to premium — sourced direct, priced right.</p></div><div class="svc reveal"><div class="svc-n">02</div><span class="svc-ic">🔧</span><div class="svc-h">Mobile Install</div><p class="svc-p">We bring the shop to you. Home, office, wherever — full install and balancing on-site.</p></div><div class="svc reveal"><div class="svc-n">03</div><span class="svc-ic">🤝</span><div class="svc-h">Partner Shops</div><p class="svc-p">Prefer a physical shop? We route you to our vetted network of trusted local shops.</p></div><div class="svc reveal"><div class="svc-n">04</div><span class="svc-ic">⚖️</span><div class="svc-h">Balance & Rotate</div><p class="svc-p">Maximize tire life and smooth your ride with professional balancing and rotation.</p></div></div>
+  </div>
+</section>
+<section class="section" id="order" style="background:var(--ink2);">
+  <div class="section-inner">
+    <div class="eyebrow reveal"><div class="eyebrow-line"></div><div class="eyebrow-text">Get Started</div></div>
+    <div class="order-layout">
+      <div class="reveal"><h2 class="section-h2">Order in<br><em>2 Minutes</em></h2><p class="section-sub">No shop visit. No waiting on hold. Fill this out and we handle everything.</p><div class="order-promises"><div class="promise"><div class="p-dot"></div><div class="p-text">Quote within 1 hour, always</div></div><div class="promise"><div class="p-dot"></div><div class="p-text">Same-day installs available</div></div><div class="promise"><div class="p-dot"></div><div class="p-text">No hidden fees or surprises</div></div><div class="promise"><div class="p-dot"></div><div class="p-text">Pay only on the day of service</div></div><div class="promise"><div class="p-dot"></div><div class="p-text">Serving Miami-Dade & Broward</div></div></div></div>
+      <div class="form-wrap reveal"><div class="frow"><div class="fg"><label>First Name</label><input type="text" id="fn" placeholder="John"/></div><div class="fg"><label>Last Name</label><input type="text" placeholder="Doe"/></div></div><div class="fg"><label>Phone</label><input type="tel" id="ph" placeholder="(305) 000-0000"/></div><div class="fg"><label>Email</label><input type="email" placeholder="you@email.com"/></div><div class="frow"><div class="fg"><label>Tire Size</label><input type="text" id="sz" placeholder="225/65R17"/></div><div class="fg"><label>Quantity</label><select><option>1 tire</option><option>2 tires</option><option selected>4 tires</option></select></div></div><div class="fg"><label>Service</label><select><option>Tire purchase only</option><option>Mobile installation — come to me</option><option>Connect me to a partner shop</option></select></div><div class="fg"><label>Location</label><input type="text" id="loc" placeholder="Miami, FL or ZIP"/></div><div class="fg"><label>Notes</label><textarea rows="2" placeholder="Year, make, model or any requests..."></textarea></div><button class="fsub" onclick="sub()">Submit Order Request →</button><div class="ok" id="ok">✅ Received! We'll text you within the hour.</div></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="why" style="background:var(--surface);">
+  <div class="section-inner"><div class="eyebrow reveal"><div class="eyebrow-line"></div><div class="eyebrow-text">Why Quick Line</div></div><h2 class="section-h2 reveal">Built <em>Different</em></h2><div class="why-grid"><div class="why-c reveal"><div class="why-n">100%</div><div class="why-h">Mobile First</div><p class="why-p">No shop. We come to you.</p></div><div class="why-c reveal"><div class="why-n">⚡</div><div class="why-h">Same Day</div><p class="why-p">Book today, installed today.</p></div><div class="why-c reveal"><div class="why-n">$0</div><div class="why-h">No Markup Games</div><p class="why-p">Fair pricing, every time.</p></div><div class="why-c reveal"><div class="why-n">★★★★★</div><div class="why-h">Trusted Network</div><p class="why-p">Vetted shops across Miami.</p></div></div></div>
+</section>
+<footer id="footer"><div class="footer-inner"><div class="ftop"><div><div class="f-logo">QUICK<em>LINE</em> TIRES</div><div class="f-tag">Miami's mobile tire service. We come to you anywhere in Miami-Dade and Broward.</div></div><div class="flinks"><h4>Services</h4><a href="#services">Tire Sales</a><a href="#services">Mobile Install</a><a href="#services">Partner Shops</a><a href="#services">Balance & Rotate</a></div><div class="flinks"><h4>Contact</h4><a href="tel:7869427883">(786) 942-7883</a><a href="https://instagram.com/quickline.tires" target="_blank">@quickline.tires</a><a href="#order">Order Now</a></div></div><div class="fbot"><div class="fcopy">© 2025 Quick Line Tires. Miami, FL.</div><div class="fsocial"><a class="soc" href="https://instagram.com/quickline.tires" target="_blank">📸</a><a class="soc" href="tel:7869427883">📱</a><a class="soc" href="#order">✉️</a></div></div></div></footer>
+<button id="rex-bubble" onclick="toggleRex()" title="Chat with us">🎯</button>
+<button id="rex-close" onclick="toggleRex()">✕</button>
+<div id="rex-frame"><iframe src="rex-lead-agent.html" title="Quick Line Tires Chat"></iframe></div>
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40);});
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4)*0.08+'s';obs.observe(el);});
+function sub(){const n=document.getElementById('fn').value.trim(),p=document.getElementById('ph').value.trim(),s=document.getElementById('sz').value.trim();if(!n||!p||!s){alert('Please fill in name, phone, and tire size.');return;}const b=document.querySelector('.fsub');b.textContent='Sending...';b.disabled=true;setTimeout(()=>{document.getElementById('ok').style.display='block';b.textContent='Submitted ✓';b.style.background='#16a34a';},700);}
+function toggleRex(){const f=document.getElementById('rex-frame'),c=document.getElementById('rex-close'),o=f.style.display==='block';f.style.display=o?'none':'block';c.style.display=o?'none':'flex';}
+</script>
+</body>
+</html>

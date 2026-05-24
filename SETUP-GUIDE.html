@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Quinn — Quick Line Tires Quote Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --black:#0a0a0a;--dark:#111;--card:#161616;--card2:#1a1a1a;
+  --border:#222;--border2:#2a2a2a;
+  --red:#e53935;--red-dim:rgba(229,57,53,0.12);
+  --blue-dim:rgba(59,130,246,0.12);
+  --green:#4ade80;--green-dim:rgba(74,222,128,0.1);
+  --amber:#fbbf24;--amber-dim:rgba(251,191,36,0.1);
+  --white:#f0f0f0;--muted:#555;
+  --font-head:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{min-height:100%;background:var(--black);color:var(--white);font-family:var(--font-body);}
+.header{width:100%;background:var(--dark);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;}
+.brand{font-family:var(--font-head);font-size:22px;font-weight:900;letter-spacing:2px;}
+.brand span{color:var(--red);}
+.agent-chip{background:var(--blue-dim);border:1px solid rgba(59,130,246,0.3);color:#60a5fa;font-family:var(--font-head);font-size:11px;font-weight:700;letter-spacing:2px;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
+.status-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:700;letter-spacing:1px;}
+.pulse{width:7px;height:7px;background:var(--green);border-radius:50%;animation:blink 1.8s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.workspace{display:grid;grid-template-columns:300px 1fr 300px;gap:1.5rem;padding:1.5rem;max-width:1300px;margin:0 auto;}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.panel-head{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.panel-title{font-family:var(--font-head);font-size:14px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.panel-body{padding:1.25rem;}
+.field{margin-bottom:1rem;}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.field input,.field select{width:100%;background:#111;border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:13px;font-family:var(--font-body);color:var(--white);outline:none;transition:border-color 0.2s;}
+.field input::placeholder{color:#444;}
+.field input:focus,.field select:focus{border-color:var(--red);}
+.field select option{background:#111;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.gen-btn{width:100%;background:var(--red);border:none;color:#fff;padding:12px;border-radius:8px;font-family:var(--font-head);font-size:15px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.gen-btn:hover{background:#c62828;}
+.gen-btn:disabled{background:#2a2a2a;color:#444;cursor:not-allowed;}
+.quick-leads{margin-bottom:1rem;}
+.ql-title{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.ql-item{background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;margin-bottom:6px;cursor:pointer;transition:border-color 0.15s;}
+.ql-item:hover{border-color:var(--red);}
+.ql-name{font-size:13px;font-weight:600;color:var(--white);}
+.ql-detail{font-size:11px;color:#666;margin-top:2px;}
+.quote-area{display:flex;flex-direction:column;gap:1rem;}
+.quinn-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;text-align:center;}
+.quinn-avatar{width:56px;height:56px;border-radius:50%;background:var(--blue-dim);border:2px solid rgba(59,130,246,0.3);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 0.75rem;}
+.quinn-name{font-family:var(--font-head);font-size:20px;font-weight:900;letter-spacing:2px;}
+.quinn-sub{font-size:12px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.quinn-thinking{font-size:13px;color:#555;margin-top:8px;min-height:18px;}
+.quinn-thinking.active{color:#60a5fa;}
+.quote-doc{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:none;}
+.quote-doc.visible{display:block;animation:fadeUp 0.4s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.quote-header{background:#111;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;}
+.quote-num-label{font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.quote-id{font-family:var(--font-head);font-size:24px;font-weight:900;color:var(--white);margin-top:2px;}
+.quote-badge{background:var(--amber-dim);border:1px solid rgba(251,191,36,0.3);color:var(--amber);font-size:11px;font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
+.quote-badge.sent{background:var(--green-dim);border-color:rgba(74,222,128,0.3);color:var(--green);}
+.quote-customer{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.qc-label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.qc-val{font-size:14px;color:var(--white);font-weight:600;}
+.qc-sub{font-size:12px;color:#666;margin-top:2px;}
+.quote-items{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
+.items-head{display:grid;grid-template-columns:1fr 80px 60px 90px;gap:8px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.item-row{display:grid;grid-template-columns:1fr 80px 60px 90px;gap:8px;padding:10px 0;border-bottom:1px solid #1a1a1a;}
+.item-row:last-child{border-bottom:none;}
+.item-name{font-size:14px;color:var(--white);font-weight:500;}
+.item-name small{display:block;font-size:11px;color:#666;margin-top:2px;font-weight:400;}
+.item-num{font-size:13px;color:#aaa;text-align:right;}
+.item-total{font-size:13px;color:var(--white);font-weight:600;text-align:right;}
+.quote-totals{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);}
+.total-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;}
+.total-row.main{padding-top:10px;border-top:1px solid var(--border);margin-top:5px;font-size:18px;font-family:var(--font-head);font-weight:900;}
+.total-label{color:#777;}
+.total-label.main{color:var(--white);}
+.total-amt{color:var(--white);}
+.total-amt.red{color:var(--red);font-weight:900;}
+.quote-note{padding:1.25rem 1.5rem;background:#111;}
+.quote-note-text{font-size:13px;color:#666;line-height:1.65;font-style:italic;}
+.sms-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:none;}
+.sms-panel.visible{display:block;animation:fadeUp 0.4s ease 0.1s both;}
+.sms-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.sms-title{font-family:var(--font-head);font-size:13px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;}
+.sms-tabs{display:flex;gap:6px;}
+.sms-tab{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:6px;border:1px solid var(--border2);color:#666;cursor:pointer;transition:all 0.15s;}
+.sms-tab.active{background:var(--red-dim);border-color:rgba(229,57,53,0.3);color:var(--red);}
+.phone-frame{margin:1rem auto;width:200px;background:#1c1c1e;border:2px solid #333;border-radius:30px;padding:12px 8px;}
+.phone-notch{width:60px;height:6px;background:#333;border-radius:3px;margin:0 auto 10px;}
+.sms-bubble-wrap{background:#000;border-radius:14px;padding:10px;min-height:120px;}
+.sms-from{font-size:10px;color:#555;text-align:center;margin-bottom:8px;}
+.sms-bubble{background:#1c7c54;border-radius:14px 14px 4px 14px;padding:10px 12px;font-size:11px;color:#fff;line-height:1.6;max-width:95%;margin-left:auto;}
+.sms-time-stamp{font-size:9px;color:#555;text-align:right;margin-top:6px;}
+.send-actions{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:8px;}
+.action-btn{width:100%;border:none;padding:11px;border-radius:8px;font-family:var(--font-head);font-size:14px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.action-btn.primary{background:var(--red);color:#fff;}
+.action-btn.primary:hover{background:#c62828;}
+.action-btn.secondary{background:var(--card2);border:1px solid var(--border2);color:#aaa;}
+.action-btn.secondary:hover{border-color:var(--red);color:var(--white);}
+.action-btn.success{background:var(--green-dim);border:1px solid rgba(74,222,128,0.3);color:var(--green);}
+.action-btn:disabled{background:#1a1a1a;color:#333;cursor:not-allowed;border-color:transparent;}
+.followup-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.25rem;display:none;}
+.followup-card.visible{display:block;animation:fadeUp 0.4s ease 0.2s both;}
+.fu-title{font-family:var(--font-head);font-size:13px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:1rem;}
+.fu-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1a1a1a;font-size:13px;color:#888;}
+.fu-item:last-child{border-bottom:none;}
+.fu-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.history-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;}
+.history-list{padding:1rem;}
+.hist-item{padding:10px 0;border-bottom:1px solid #1a1a1a;}
+.hist-item:last-child{border-bottom:none;}
+.hist-name{font-size:13px;font-weight:600;color:var(--white);}
+.hist-detail{font-size:11px;color:#666;margin-top:2px;}
+.hist-status{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:10px;margin-top:4px;text-transform:uppercase;}
+.hs-sent{background:var(--green-dim);color:var(--green);}
+.hs-new{background:var(--red-dim);color:var(--red);}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:1rem;border-top:1px solid var(--border);}
+.stat-box{background:var(--card2);border-radius:8px;padding:10px;text-align:center;}
+.stat-num{font-family:var(--font-head);font-size:22px;font-weight:900;color:var(--white);}
+.stat-lbl{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+@media(max-width:900px){.workspace{grid-template-columns:1fr;max-width:600px;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="brand">QUICK<span>LINE</span> TIRES</div>
+    <div class="agent-chip">Agent System</div>
+  </div>
+  <div class="status-pill"><div class="pulse"></div>QUINN ONLINE</div>
+</div>
+
+<div class="workspace">
+
+  <!-- LEFT -->
+  <div style="display:flex;flex-direction:column;gap:1rem;">
+    <div class="panel">
+      <div class="panel-head"><span style="font-size:16px;">💬</span><span class="panel-title">Lead Info</span></div>
+      <div class="panel-body">
+        <div class="quick-leads">
+          <div class="ql-title">From Rex — Hot Leads</div>
+          <div class="ql-item" onclick="fillLead('Carlos M.','(786) 555-0192','225/65R17','4','Mobile install — we come to them','Miami, FL 33101','')">
+            <div class="ql-name">Carlos M. 🔥</div>
+            <div class="ql-detail">4x 225/65R17 · Mobile · Miami FL</div>
+          </div>
+          <div class="ql-item" onclick="fillLead('Maria R.','(305) 555-0847','235/55R19','2','Connect to partner shop','Doral, FL 33172','Michelin')">
+            <div class="ql-name">Maria R. 🔥</div>
+            <div class="ql-detail">2x 235/55R19 · Shop · Doral FL</div>
+          </div>
+          <div class="ql-item" onclick="fillLead('Jose T.','(954) 555-0331','215/60R16','4','Mobile install — we come to them','Hialeah, FL 33010','')">
+            <div class="ql-name">Jose T.</div>
+            <div class="ql-detail">4x 215/60R16 · Mobile · Hialeah FL</div>
+          </div>
+        </div>
+        <div style="border-top:1px solid var(--border);padding-top:1rem;margin-bottom:1rem;">
+          <div class="ql-title">Or Enter Manually</div>
+        </div>
+        <div class="field"><label>Customer Name</label><input type="text" id="f-name" placeholder="e.g. Carlos M."/></div>
+        <div class="field"><label>Phone Number</label><input type="tel" id="f-phone" placeholder="(786) 000-0000"/></div>
+        <div class="field-row">
+          <div class="field"><label>Tire Size</label><input type="text" id="f-size" placeholder="225/65R17"/></div>
+          <div class="field"><label>Quantity</label>
+            <select id="f-qty"><option value="1">1 tire</option><option value="2">2 tires</option><option value="4" selected>4 tires</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Service Type</label>
+          <select id="f-service">
+            <option>Mobile install — we come to them</option>
+            <option>Connect to partner shop</option>
+            <option>Tire purchase only</option>
+          </select>
+        </div>
+        <div class="field"><label>Location</label><input type="text" id="f-location" placeholder="Miami, FL 33101"/></div>
+        <div class="field"><label>Brand Preference</label>
+          <select id="f-brand">
+            <option value="">Best value for budget</option>
+            <option value="Michelin">Michelin (premium)</option>
+            <option value="Goodyear">Goodyear (mid-range)</option>
+            <option value="Cooper">Cooper (budget)</option>
+            <option value="Falken">Falken (performance)</option>
+            <option value="Nexen">Nexen (value)</option>
+          </select>
+        </div>
+        <button class="gen-btn" id="gen-btn" onclick="generateQuote()"><span>⚡</span> Generate Quote</button>
+      </div>
+    </div>
+
+    <div class="history-panel">
+      <div class="panel-head"><span style="font-size:16px;">📋</span><span class="panel-title">Quote History</span></div>
+      <div class="history-list" id="history-list"><div style="font-size:13px;color:#444;text-align:center;padding:1rem 0;">No quotes yet today</div></div>
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-num" id="stat-sent">0</div><div class="stat-lbl">Sent Today</div></div>
+        <div class="stat-box"><div class="stat-num" id="stat-val" style="color:var(--red);">$0</div><div class="stat-lbl">Pipeline</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIDDLE -->
+  <div class="quote-area">
+    <div class="quinn-card">
+      <div class="quinn-avatar">💬</div>
+      <div class="quinn-name">QUINN</div>
+      <div class="quinn-sub">Quote Generation Agent</div>
+      <div class="quinn-thinking" id="quinn-thinking">Ready — tap a hot lead or fill in the form, then hit Generate.</div>
+    </div>
+
+    <div class="quote-doc" id="quote-doc">
+      <div class="quote-header">
+        <div>
+          <div class="quote-num-label">Quick Line Tires — Official Quote</div>
+          <div class="quote-id" id="q-id">QLT-0001</div>
+          <div style="font-size:12px;color:#555;margin-top:4px;" id="q-date"></div>
+        </div>
+        <div class="quote-badge" id="q-badge">Draft</div>
+      </div>
+      <div class="quote-customer">
+        <div>
+          <div class="qc-label">Customer</div>
+          <div class="qc-val" id="q-name">—</div>
+          <div class="qc-sub" id="q-phone">—</div>
+          <div class="qc-sub" id="q-location">—</div>
+        </div>
+        <div>
+          <div class="qc-label">Service</div>
+          <div class="qc-val" id="q-service">—</div>
+          <div class="qc-sub">Valid for 48 hours</div>
+        </div>
+      </div>
+      <div class="quote-items">
+        <div class="items-head"><span>Item</span><span style="text-align:right">Unit</span><span style="text-align:right">Qty</span><span style="text-align:right">Total</span></div>
+        <div id="q-items"></div>
+      </div>
+      <div class="quote-totals" id="q-totals"></div>
+      <div class="quote-note"><div class="quote-note-text" id="q-note"></div></div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div style="display:flex;flex-direction:column;gap:1rem;">
+    <div class="sms-panel" id="sms-panel">
+      <div class="sms-header">
+        <div class="sms-title">SMS Preview</div>
+        <div class="sms-tabs">
+          <div class="sms-tab active" onclick="switchTab(this,'customer')">Customer</div>
+          <div class="sms-tab" onclick="switchTab(this,'owner')">Owner</div>
+        </div>
+      </div>
+      <div style="padding:0 1rem;">
+        <div class="phone-frame">
+          <div class="phone-notch"></div>
+          <div class="sms-bubble-wrap">
+            <div class="sms-from" id="sms-from">Quick Line Tires</div>
+            <div class="sms-bubble" id="sms-bubble">Generating...</div>
+            <div class="sms-time-stamp" id="sms-time">Now</div>
+          </div>
+        </div>
+      </div>
+      <div class="send-actions">
+        <button class="action-btn primary" id="send-customer-btn" onclick="sendQuote('customer')">📱 Send to Customer</button>
+        <button class="action-btn secondary" id="send-owner-btn" onclick="sendQuote('owner')">🔔 Alert Owner (786) 942-7883</button>
+        <button class="action-btn secondary" onclick="copyQuote()">📋 Copy Quote Text</button>
+      </div>
+    </div>
+
+    <div class="followup-card" id="followup-card">
+      <div class="fu-title">Auto Follow-Up Schedule</div>
+      <div class="fu-item"><div class="fu-dot" style="background:var(--green)"></div><div style="flex:1">Quote sent to customer</div><div style="font-size:11px;color:#444">Now</div></div>
+      <div class="fu-item"><div class="fu-dot" style="background:var(--amber)"></div><div style="flex:1">Follow-up if no reply</div><div style="font-size:11px;color:#444">+2 hrs</div></div>
+      <div class="fu-item"><div class="fu-dot" style="background:var(--amber)"></div><div style="flex:1">Final reminder + urgency</div><div style="font-size:11px;color:#444">+24 hrs</div></div>
+      <div class="fu-item"><div class="fu-dot" style="background:var(--red)"></div><div style="flex:1">Mark lost — alert owner</div><div style="font-size:11px;color:#444">+48 hrs</div></div>
+      <div style="margin-top:1rem;padding:10px;background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);border-radius:8px;font-size:12px;color:#4ade80;line-height:1.5;">
+        Quinn handles all follow-ups automatically. You only get notified when action is needed.
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span style="font-size:16px;">🤝</span><span class="panel-title">Agent Handoff</span></div>
+      <div class="panel-body" style="display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:12px;color:#555;margin-bottom:4px;">After quote accepted, Quinn hands off to:</div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--card2);border-radius:8px;">
+          <span style="font-size:18px;">📅</span>
+          <div><div style="color:var(--white);font-size:13px;font-weight:600;">Mia — Scheduler</div><div style="font-size:11px;color:#555;">Books install automatically</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--card2);border-radius:8px;">
+          <span style="font-size:18px;">🎯</span>
+          <div><div style="color:var(--white);font-size:13px;font-weight:600;">Rex — Lead Agent</div><div style="font-size:11px;color:#555;">Lead status updated in real-time</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let quoteCount=0,totalPipeline=0,quotesSent=0;
+let currentSMSCustomer='',currentSMSOwner='';
+
+function fillLead(name,phone,size,qty,service,location,brand){
+  document.getElementById('f-name').value=name;
+  document.getElementById('f-phone').value=phone;
+  document.getElementById('f-size').value=size;
+  document.getElementById('f-qty').value=qty;
+  document.getElementById('f-service').value=service;
+  document.getElementById('f-location').value=location;
+  document.getElementById('f-brand').value=brand;
+}
+
+function setThinking(msg,active){
+  const el=document.getElementById('quinn-thinking');
+  el.textContent=msg;
+  el.className='quinn-thinking'+(active?' active':'');
+}
+
+async function generateQuote(){
+  const name=document.getElementById('f-name').value.trim()||'Customer';
+  const phone=document.getElementById('f-phone').value.trim()||'N/A';
+  const size=document.getElementById('f-size').value.trim();
+  const qty=document.getElementById('f-qty').value;
+  const service=document.getElementById('f-service').value;
+  const location=document.getElementById('f-location').value.trim()||'Miami, FL';
+  const brand=document.getElementById('f-brand').value;
+  if(!size){alert('Please enter a tire size.');return;}
+
+  const btn=document.getElementById('gen-btn');
+  btn.disabled=true;btn.innerHTML='<span>⏳</span> Quinn is working...';
+  setThinking('Pulling tire pricing, calculating service fees, building quote...',true);
+
+  const prompt=`You are Quinn, Quote Agent for Quick Line Tires Miami FL. Generate a realistic tire quote as strict JSON only — no markdown, no explanation, just the JSON object.
+
+Customer: ${name} | Phone: ${phone} | Tire Size: ${size} | Quantity: ${qty} | Service: ${service} | Location: ${location} | Brand: ${brand||'Best value'}
+
+Return this exact JSON structure:
+{"tireProduct":{"brand":"string","model":"string","size":"${size}","loadRating":"string","unitPrice":number,"qty":${qty},"lineTotal":number},"installation":{"description":"string","unitPrice":number,"qty":${qty},"lineTotal":number},"balancing":{"unitPrice":number,"qty":${qty},"lineTotal":number},"disposal":{"unitPrice":number,"qty":${qty},"lineTotal":number},"subtotal":number,"tax":number,"total":number,"savings":number,"notes":"string","smsCustomer":"string under 160 chars","smsOwner":"string"}
+
+Pricing rules: Mobile install $28-35/tire. Shop install $18-25/tire. Purchase only $0. Balance $12-18/tire. Disposal $4/tire. Tax 7%. Use real tire models. savings=0 if no discount.`;
+
+  try{
+    const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    let raw=data.content.map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const q=JSON.parse(raw);
+    renderQuote(q,{name,phone,size,qty,service,location});
+    setThinking('Quote ready. Send to customer or alert owner.');
+  }catch(e){
+    setThinking('Something went wrong. Try again.');
+    console.error(e);
+  }
+  btn.disabled=false;btn.innerHTML='<span>⚡</span> Generate Quote';
+}
+
+function renderQuote(q,lead){
+  quoteCount++;
+  const qid='QLT-'+String(quoteCount).padStart(4,'0');
+  const now=new Date();
+  document.getElementById('q-id').textContent=qid;
+  document.getElementById('q-date').textContent=now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'})+' · '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('q-name').textContent=lead.name;
+  document.getElementById('q-phone').textContent=lead.phone;
+  document.getElementById('q-location').textContent=lead.location;
+  document.getElementById('q-service').textContent=lead.service;
+  document.getElementById('q-badge').textContent='Ready to Send';
+  document.getElementById('q-badge').className='quote-badge';
+
+  const addRow=(name,sub,unit,qty,total)=>`<div class="item-row"><div class="item-name">${name}<small>${sub}</small></div><div class="item-num">$${Number(unit).toFixed(2)}</div><div class="item-num">${qty}</div><div class="item-total">$${Number(total).toFixed(2)}</div></div>`;
+  let rows=addRow(q.tireProduct.brand+' '+q.tireProduct.model,q.tireProduct.size+' · '+q.tireProduct.loadRating,q.tireProduct.unitPrice,q.tireProduct.qty,q.tireProduct.lineTotal);
+  if(q.installation.lineTotal>0)rows+=addRow('Installation',q.installation.description,q.installation.unitPrice,q.installation.qty,q.installation.lineTotal);
+  rows+=addRow('Wheel Balancing','Per tire',q.balancing.unitPrice,q.balancing.qty,q.balancing.lineTotal);
+  rows+=addRow('Tire Disposal','Old tires',q.disposal.unitPrice,q.disposal.qty,q.disposal.lineTotal);
+  document.getElementById('q-items').innerHTML=rows;
+
+  const savings=q.savings>0?`<div class="total-row"><span class="total-label" style="color:var(--green)">Savings</span><span style="color:var(--green)">-$${Number(q.savings).toFixed(2)}</span></div>`:'';
+  document.getElementById('q-totals').innerHTML=`<div class="total-row"><span class="total-label">Subtotal</span><span class="total-amt">$${Number(q.subtotal).toFixed(2)}</span></div><div class="total-row"><span class="total-label">Tax (7%)</span><span class="total-amt">$${Number(q.tax).toFixed(2)}</span></div>${savings}<div class="total-row main"><span class="total-label main">Total</span><span class="total-amt red">$${Number(q.total).toFixed(2)}</span></div>`;
+  document.getElementById('q-note').textContent=q.notes;
+
+  currentSMSCustomer=q.smsCustomer;
+  currentSMSOwner=q.smsOwner;
+  document.getElementById('sms-from').textContent='Quick Line Tires';
+  document.getElementById('sms-bubble').textContent=q.smsCustomer;
+  document.getElementById('sms-time').textContent=new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+
+  document.getElementById('quote-doc').className='quote-doc visible';
+  document.getElementById('sms-panel').className='sms-panel visible';
+  document.getElementById('followup-card').className='followup-card visible';
+  document.getElementById('send-customer-btn').className='action-btn primary';
+  document.getElementById('send-customer-btn').disabled=false;
+  document.getElementById('send-customer-btn').innerHTML='📱 Send to Customer';
+  document.getElementById('send-owner-btn').className='action-btn secondary';
+  document.getElementById('send-owner-btn').disabled=false;
+  document.getElementById('send-owner-btn').innerHTML='🔔 Alert Owner (786) 942-7883';
+
+  totalPipeline+=Math.round(q.total);
+  document.getElementById('stat-val').textContent='$'+totalPipeline.toLocaleString();
+  addToHistory(lead.name,lead.size,lead.qty,q.total,qid);
+}
+
+function switchTab(el,tab){
+  document.querySelectorAll('.sms-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if(tab==='customer'){
+    document.getElementById('sms-from').textContent='Quick Line Tires';
+    document.getElementById('sms-bubble').textContent=currentSMSCustomer;
+    document.getElementById('send-customer-btn').style.display='';
+  }else{
+    document.getElementById('sms-from').textContent='Internal → (786) 942-7883';
+    document.getElementById('sms-bubble').textContent=currentSMSOwner;
+    document.getElementById('send-customer-btn').style.display='none';
+  }
+}
+
+function sendQuote(target){
+  if(target==='customer'){
+    const btn=document.getElementById('send-customer-btn');
+    btn.innerHTML='✅ Sent to Customer!';btn.className='action-btn success';btn.disabled=true;
+    document.getElementById('q-badge').textContent='Sent';
+    document.getElementById('q-badge').className='quote-badge sent';
+    quotesSent++;document.getElementById('stat-sent').textContent=quotesSent;
+    updateLastStatus('hs-sent','Sent');
+  }else{
+    const btn=document.getElementById('send-owner-btn');
+    btn.innerHTML='✅ Owner Notified!';btn.className='action-btn success';btn.disabled=true;
+  }
+}
+
+function copyQuote(){
+  navigator.clipboard.writeText(document.getElementById('sms-bubble').textContent).catch(()=>{});
+  const btn=event.currentTarget;
+  btn.innerHTML='✅ Copied!';
+  setTimeout(()=>{btn.innerHTML='📋 Copy Quote Text';},2000);
+}
+
+function addToHistory(name,size,qty,total,qid){
+  const list=document.getElementById('history-list');
+  if(list.children[0]&&list.children[0].style.textAlign==='center')list.innerHTML='';
+  const div=document.createElement('div');
+  div.className='hist-item';
+  div.innerHTML=`<div class="hist-name">${name}</div><div class="hist-detail">${qty}x ${size} · $${Number(total).toFixed(2)} · ${qid}</div><div class="hist-status hs-new">New</div>`;
+  list.prepend(div);
+}
+
+function updateLastStatus(cls,label){
+  const first=document.getElementById('history-list').querySelector('.hist-item');
+  if(!first)return;
+  const b=first.querySelector('.hist-status');
+  b.className='hist-status '+cls;b.textContent=label;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+const twilio = require('twilio');
+
+exports.handler = async (event, context) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json'
+  };
+
+  try {
+    const body = JSON.parse(event.body);
+    const { type, name, phone, size, qty, service, location, message, agent } = body;
+
+    const client = twilio(
+      process.env.TWILIO_ACCOUNT_SID,
+      process.env.TWILIO_AUTH_TOKEN
+    );
+
+    const OWNER_PHONE = process.env.OWNER_PHONE || '+17869427883';
+    const TWILIO_PHONE = process.env.TWILIO_PHONE;
+
+    let smsBody = '';
+
+    if (type === 'hot_lead') {
+      smsBody = `🔥 HOT LEAD — Quick Line Tires\n\nName: ${name}\nPhone: ${phone}\nTires: ${qty} x ${size}\nService: ${service}\nLocation: ${location}\n\nReply fast — Rex already warmed them up!`;
+    } else if (type === 'quote_sent') {
+      smsBody = `💬 QUOTE SENT — Quick Line Tires\n\nCustomer: ${name} (${phone})\nQuote: ${message}\n\nFollowing up in 2hrs if no reply.`;
+    } else if (type === 'booking_confirmed') {
+      smsBody = `📅 BOOKING CONFIRMED — Quick Line Tires\n\n${message}\n\nMia sent customer a reminder for the day before.`;
+    } else if (type === 'review_request') {
+      smsBody = `⭐ REVIEW REQUEST SENT\n\nKai texted ${name} asking for a Google review.\n\nKeep delivering great service!`;
+    } else if (type === 'customer_sms') {
+      // Send SMS to the customer instead of owner
+      const customerPhone = '+1' + phone.replace(/\D/g, '');
+      await client.messages.create({
+        body: message,
+        from: TWILIO_PHONE,
+        to: customerPhone
+      });
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({ success: true, to: 'customer', phone: customerPhone })
+      };
+    } else {
+      smsBody = `📱 Quick Line Tires Alert\n\nAgent: ${agent || 'System'}\n${message}`;
+    }
+
+    // Send to owner
+    await client.messages.create({
+      body: smsBody,
+      from: TWILIO_PHONE,
+      to: OWNER_PHONE
+    });
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ success: true, message: 'SMS sent to owner' })
+    };
+
+  } catch (err) {
+    console.error('Twilio error:', err);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: err.message })
+    };
+  }
+};

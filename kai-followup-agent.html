@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Atlas — Analytics Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--black:#0a0a0a;--dark:#111;--card:#161616;--border:#222;--teal:#0d9488;--teal-dim:rgba(13,148,136,0.12);--white:#f0f0f0;--muted:#555;--font-head:'Barlow Condensed',sans-serif;--font-body:'Barlow',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;background:var(--black);color:var(--white);font-family:var(--font-body);}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;}
+.header{width:100%;background:var(--dark);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:60px;}
+.brand-name{font-family:var(--font-head);font-size:22px;font-weight:900;letter-spacing:2px;}
+.brand-name span{color:#2dd4bf;}
+.agent-badge{background:var(--teal-dim);border:1px solid rgba(13,148,136,0.3);color:#2dd4bf;font-family:var(--font-head);font-size:11px;font-weight:700;letter-spacing:2px;padding:4px 12px;border-radius:20px;text-transform:uppercase;}
+.status-pill{display:flex;align-items:center;gap:6px;font-size:12px;color:#2dd4bf;font-weight:600;letter-spacing:1px;}
+.pulse{width:7px;height:7px;background:#2dd4bf;border-radius:50%;animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+.main{width:100%;max-width:1100px;padding:2rem;display:flex;flex-direction:column;gap:1.5rem;}
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;}
+.metric-label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.metric-val{font-size:32px;font-weight:900;font-family:var(--font-head);line-height:1;}
+.metric-val.green{color:#4ade80;}.metric-val.teal{color:#2dd4bf;}.metric-val.amber{color:#fbbf24;}.metric-val.red{color:#f87171;}
+.metric-change{font-size:12px;margin-top:6px;}
+.metric-change.up{color:#4ade80;}.metric-change.dn{color:#f87171;}.metric-change.neu{color:#666;}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;}
+.panel-title{font-family:var(--font-head);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem;}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.bar-label{font-size:12px;color:#888;width:80px;flex-shrink:0;}
+.bar-track{flex:1;background:#1a1a1a;border-radius:4px;height:8px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;background:#0d9488;transition:width 1s ease;}
+.bar-val{font-size:12px;color:#ccc;font-weight:600;width:40px;text-align:right;flex-shrink:0;}
+.insight-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:14px;}
+.insight-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.insight-text{font-size:13px;color:#888;line-height:1.6;}
+.insight-text strong{color:#ddd;}
+.log-item{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid #1a1a1a;}
+.log-item:last-child{border-bottom:none;}
+.log-time{font-size:11px;color:#444;font-weight:700;width:48px;flex-shrink:0;padding-top:2px;}
+.log-msg{font-size:13px;color:#888;line-height:1.5;}
+.log-msg strong{color:#ccc;}
+.log-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;}
+.tag-lead{background:rgba(239,68,68,0.15);color:#f87171;}
+.tag-sale{background:rgba(74,222,128,0.15);color:#4ade80;}
+.tag-book{background:rgba(13,148,136,0.15);color:#2dd4bf;}
+.chat-section{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.report-panel{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;}
+.rp-content{font-size:13px;color:#888;line-height:1.8;white-space:pre-wrap;min-height:100px;}
+.rp-content.empty{color:#333;font-style:italic;}
+.gen-btn{background:var(--teal);border:none;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);margin-top:1rem;letter-spacing:0.5px;}
+.gen-btn:hover{background:#0f766e;}
+.chat-box{background:var(--card);border:1px solid var(--border);border-radius:14px;display:flex;flex-direction:column;overflow:hidden;}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem 1.5rem;display:flex;flex-direction:column;gap:0.75rem;min-height:200px;max-height:300px;}
+.chat-messages::-webkit-scrollbar{width:4px;}
+.chat-messages::-webkit-scrollbar-thumb{background:#2a2a2a;border-radius:2px;}
+.msg{display:flex;gap:8px;align-items:flex-end;animation:fadeUp 0.3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;}}
+.msg.agent{flex-direction:row;}.msg.user{flex-direction:row-reverse;}
+.msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.msg.agent .msg-avatar{background:var(--teal-dim);border:1px solid rgba(13,148,136,0.3);}
+.msg.user .msg-avatar{background:#1f1f1f;border:1px solid #2a2a2a;}
+.msg-bubble{max-width:80%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.6;}
+.msg.agent .msg-bubble{background:#1a1a1a;color:#ddd;border-bottom-left-radius:4px;}
+.msg.user .msg-bubble{background:#0d9488;color:#fff;border-bottom-right-radius:4px;}
+.quick-replies{display:flex;flex-wrap:wrap;gap:6px;padding:0 1rem 0.75rem;}
+.qr-btn{background:transparent;border:1px solid #2a2a2a;color:#aaa;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:border-color 0.15s,color 0.15s;}
+.qr-btn:hover{border-color:#0d9488;color:#fff;}
+.typing-indicator{display:flex;gap:5px;align-items:center;padding:10px 14px;}
+.typing-dot{width:5px;height:5px;background:#444;border-radius:50%;animation:typing 1.2s infinite;}
+.typing-dot:nth-child(2){animation-delay:0.2s;}.typing-dot:nth-child(3){animation-delay:0.4s;}
+@keyframes typing{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+.chat-input-wrap{padding:0.75rem 1rem;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;background:var(--dark);border-radius:0 0 14px 14px;}
+.chat-input{flex:1;background:#111;border:1px solid #2a2a2a;border-radius:8px;padding:9px 14px;font-size:13px;font-family:var(--font-body);color:var(--white);outline:none;transition:border-color 0.2s;}
+.chat-input::placeholder{color:#444;}.chat-input:focus{border-color:#0d9488;}
+.send-btn{background:#0d9488;border:none;color:#fff;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;}
+.send-btn:hover{background:#0f766e;}.send-btn:disabled{background:#2a2a2a;cursor:not-allowed;}
+@media(max-width:760px){.metrics-row{grid-template-columns:repeat(2,1fr);}.bottom-grid,.chat-section{grid-template-columns:1fr;}.main{padding:1rem;}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="brand-name">QUICK<span>LINE</span> TIRES</div>
+    <div class="agent-badge">Atlas — Analytics</div>
+  </div>
+  <div class="status-pill"><div class="pulse"></div>TRACKING</div>
+</div>
+<div class="main">
+  <div class="metrics-row">
+    <div class="metric-card"><div class="metric-label">Leads This Week</div><div class="metric-val teal" id="m-leads">0</div><div class="metric-change up" id="m-leads-c">Updating...</div></div>
+    <div class="metric-card"><div class="metric-label">Quotes Sent</div><div class="metric-val amber" id="m-quotes">0</div><div class="metric-change neu" id="m-quotes-c">—</div></div>
+    <div class="metric-card"><div class="metric-label">Installs Done</div><div class="metric-val green" id="m-installs">0</div><div class="metric-change up" id="m-installs-c">—</div></div>
+    <div class="metric-card"><div class="metric-label">Est. Revenue</div><div class="metric-val red" id="m-rev">$0</div><div class="metric-change up" id="m-rev-c">—</div></div>
+  </div>
+  <div class="bottom-grid">
+    <div class="panel">
+      <div class="panel-title">Lead Sources</div>
+      <div class="bar-row"><div class="bar-label">Instagram</div><div class="bar-track"><div class="bar-fill" id="bar-ig" style="width:0%"></div></div><div class="bar-val" id="bv-ig">0%</div></div>
+      <div class="bar-row"><div class="bar-label">Website</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:#7c3aed" id="bar-web"></div></div><div class="bar-val" id="bv-web">0%</div></div>
+      <div class="bar-row"><div class="bar-label">Referral</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:#d97706" id="bar-ref"></div></div><div class="bar-val" id="bv-ref">0%</div></div>
+      <div class="bar-row"><div class="bar-label">Direct SMS</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:#2563eb" id="bar-sms"></div></div><div class="bar-val" id="bv-sms">0%</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">AI Insights</div>
+      <div class="insight-item"><div class="insight-icon">📈</div><div class="insight-text"><strong>Peak inquiry time:</strong> Thu–Sat afternoons. Schedule mobile installs to match demand.</div></div>
+      <div class="insight-item"><div class="insight-icon">🎯</div><div class="insight-text"><strong>Best converting size:</strong> 225/65R17 — most common in your area. Keep these in stock.</div></div>
+      <div class="insight-item"><div class="insight-icon">⚡</div><div class="insight-text"><strong>Quote-to-close:</strong> Leads quoted within 30 min close 3x more than delayed quotes.</div></div>
+      <div class="insight-item"><div class="insight-icon">🔥</div><div class="insight-text"><strong>Opportunity:</strong> Broward County has high search volume for mobile tire install — expand there.</div></div>
+    </div>
+  </div>
+  <div class="bottom-grid">
+    <div class="panel">
+      <div class="panel-title">Activity Log</div>
+      <div id="activity-log">
+        <div class="log-item"><div class="log-time">Now</div><div class="log-msg"><strong>Atlas</strong> online — monitoring all agents<span class="log-tag tag-book">SYSTEM</span></div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Weekly Report</div>
+      <div class="rp-content empty" id="report-content">No report generated yet. Click below to get your weekly business summary.</div>
+      <button class="gen-btn" onclick="genReport()">Generate This Week's Report →</button>
+    </div>
+  </div>
+  <div class="chat-section">
+    <div style="grid-column:1/-1;">
+      <div class="chat-box">
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="quick-replies" id="quick-replies"></div>
+        <div class="chat-input-wrap">
+          <input class="chat-input" id="chat-input" placeholder="Ask Atlas anything about your business..." autocomplete="off"/>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const msgs=[];
+const systemPrompt=`You are Atlas, the analytics and business intelligence agent for Quick Line Tires — Miami mobile tire business owned by one operator. Your job: track metrics, generate insights, and give the owner clear, actionable weekly reports.
+
+Owner: (786) 942-7883
+Business stage: early growth, solo operator, acting as middleman with partner shops while building customer base.
+
+When asked for a weekly report, structure it as:
+📊 QUICK LINE TIRES — WEEKLY REPORT
+Week of: [current week]
+
+LEADS: X new leads (up/down X% from last week)
+QUOTES: X quotes sent, X% conversion rate
+INSTALLS: X completed
+REVENUE: Est. $X this week / $X this month
+
+TOP PERFORMERS:
+- Best lead source: [source]
+- Most requested tire: [size]
+- Best service: [mobile/shop]
+
+WINS THIS WEEK:
+- [2-3 specific things that went well]
+
+ACTION ITEMS:
+- [3 specific things to focus on next week]
+
+ALERTS:
+- [anything that needs immediate attention]
+
+Keep it punchy, data-driven, and honest. Give real business advice — you're like a COO in their pocket.
+For general questions, be specific and actionable. No fluff.`;
+
+async function callClaude(msg){
+  msgs.push({role:'user',content:msg});
+  const res=await fetch('/api/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:systemPrompt,messages:msgs})});
+  const data=await res.json();
+  const reply=data.content.map(b=>b.text||'').join('');
+  msgs.push({role:'assistant',content:reply});
+  return reply;
+}
+
+let animDone=false;
+function animateMetrics(){
+  if(animDone)return;animDone=true;
+  const targets={leads:12,quotes:9,installs:7,rev:3240};
+  const changes={leads:'↑ 4 from last week',quotes:'78% quote rate',installs:'↑ 2 from last week',rev:'↑ $840 vs last week'};
+  let frame=0;const total=60;
+  const interval=setInterval(()=>{
+    frame++;const p=frame/total;
+    document.getElementById('m-leads').textContent=Math.round(targets.leads*p);
+    document.getElementById('m-quotes').textContent=Math.round(targets.quotes*p);
+    document.getElementById('m-installs').textContent=Math.round(targets.installs*p);
+    document.getElementById('m-rev').textContent='$'+Math.round(targets.rev*p).toLocaleString();
+    if(frame>=total){
+      clearInterval(interval);
+      document.getElementById('m-leads-c').textContent=changes.leads;
+      document.getElementById('m-quotes-c').textContent=changes.quotes;
+      document.getElementById('m-installs-c').textContent=changes.installs;
+      document.getElementById('m-rev-c').textContent=changes.rev;
+      setTimeout(animateBars,300);
+    }
+  },20);
+}
+
+function animateBars(){
+  const bars=[{id:'bar-ig',val:52,vid:'bv-ig'},{id:'bar-web',val:24,vid:'bv-web'},{id:'bar-ref',val:15,vid:'bv-ref'},{id:'bar-sms',val:9,vid:'bv-sms'}];
+  bars.forEach((b,i)=>{setTimeout(()=>{document.getElementById(b.id).style.width=b.val+'%';document.getElementById(b.vid).textContent=b.val+'%';},i*150);});
+}
+
+function addLog(msg,tag,tagClass){
+  const log=document.getElementById('activity-log');
+  const time=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div');d.className='log-item';
+  d.innerHTML=`<div class="log-time">${time}</div><div class="log-msg">${msg}<span class="log-tag ${tagClass}">${tag}</span></div>`;
+  log.prepend(d);
+}
+
+async function genReport(){
+  const btn=document.querySelector('.gen-btn');btn.disabled=true;btn.textContent='Generating...';
+  try{
+    const r=await callClaude('Generate the weekly business report for Quick Line Tires. Use realistic early-stage numbers: 12 leads, 9 quotes sent, 7 installs completed, $3,240 estimated revenue this week.');
+    document.getElementById('report-content').textContent=r;
+    document.getElementById('report-content').classList.remove('empty');
+    addLog('<strong>Atlas</strong> generated weekly business report','REPORT','tag-book');
+    btn.textContent='Regenerate Report →';
+  }catch(e){btn.textContent='Error — try again';}
+  btn.disabled=false;
+}
+
+function showTyping(){
+  const d=document.createElement('div');d.className='msg agent';d.id='typing-msg';
+  d.innerHTML=`<div class="msg-avatar">📊</div><div class="msg-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
+  document.getElementById('chat-messages').appendChild(d);scrollBottom();
+}
+function removeTyping(){const t=document.getElementById('typing-msg');if(t)t.remove();}
+function addMessage(role,text){
+  const d=document.createElement('div');d.className=`msg ${role}`;
+  const av=role==='agent'?'📊':'👤';
+  d.innerHTML=`<div class="msg-avatar">${av}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  document.getElementById('chat-messages').appendChild(d);scrollBottom();
+}
+function scrollBottom(){const c=document.getElementById('chat-messages');c.scrollTop=c.scrollHeight;}
+function showQR(opts){
+  const qr=document.getElementById('quick-replies');qr.innerHTML='';
+  opts.forEach(o=>{const b=document.createElement('button');b.className='qr-btn';b.textContent=o;b.onclick=()=>{qr.innerHTML='';handleSend(o);};qr.appendChild(b);});
+}
+async function handleSend(text){
+  if(!text.trim())return;
+  document.getElementById('chat-input').value='';document.getElementById('send-btn').disabled=true;
+  addMessage('user',text);showTyping();
+  try{const reply=await callClaude(text);removeTyping();addMessage('agent',reply);showQR(['How do I get more leads?','Best way to grow revenue?','Should I hire help?','How to get more reviews?']);}
+  catch(e){removeTyping();addMessage('agent','Error — try again.');}
+  document.getElementById('send-btn').disabled=false;document.getElementById('chat-input').focus();
+}
+function sendMessage(){const v=document.getElementById('chat-input').value.trim();if(v)handleSend(v);}
+document.getElementById('chat-input').addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage();});
+function init(){
+  setTimeout(animateMetrics,500);
+  addMessage('agent','Atlas online. I\'m tracking all your agents and business metrics. Ask me anything — or hit "Generate Report" for your weekly summary.');
+  showQR(['Generate weekly report','How do I grow faster?','Best lead source?','What should I focus on?']);
+}
+init();
+</script>
+</body>
+</html>
